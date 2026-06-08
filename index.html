@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Penawaran Harga - PT SEJAHTERA DUA PUTRA</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    color: #333;
+  }
+  .invoice-container {
+    width: 950px;
+    background: #fff;
+    margin: 30px auto;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.05);
+    position: relative;
+  }
+  
+  /* Header Styles */
+  .header-container {
+    display: flex;
+    align-items: center;
+    border-bottom: 3px double #0b1b3d;
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+    gap: 20px;
+  }
+  .header-logo img {
+    width: 100px;
+    height: auto;
+    display: block;
+  }
+  .header-details {
+    flex: 1;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .header-details h2 {
+    margin: 0;
+    color: #0b1b3d;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    line-height: 1.1;
+  }
+  .header-details .sub-title {
+    margin: 4px 0 6px 0;
+    font-size: 13px;
+    color: #0066FF; 
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .header-details p {
+    margin: 1px 0;
+    font-size: 12px;
+    color: #222;
+    line-height: 1.3;
+  }
+  .invoice-title-container {
+    text-align: right;
+  }
+  .invoice-title-container h1 {
+    margin: 0;
+    font-size: 30px;
+    color: #0b1b3d;
+    letter-spacing: 2px;
+    font-weight: 700;
+  }
+
+  /* LAYOUT DATA UTAMA */
+  .billing-section {
+    margin-bottom: 25px;
+  }
+
+  .meta-invoice-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+  }
+  
+  .customer-invoice-row {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .mini-info-table {
+    border-collapse: collapse;
+    border: none !important;
+    margin: 0;
+  }
+  .mini-info-table td {
+    border: none !important;
+    padding: 4px 2px !important;
+    font-size: 14px;
+    vertical-align: top;
+  }
+  .mini-info-table td.label-col {
+    font-weight: 600;
+    color: #495057;
+    white-space: nowrap;
+  }
+
+  .meta-invoice-row .label-col { width: 110px; }
+  .customer-invoice-row .label-col { width: 80px; }
+  
+  .mini-info-table td.colon-col {
+    width: 10px;
+    padding-right: 5px !important;
+    text-align: center;
+  }
+
+  /* Input Form Fields */
+  input, textarea, select {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 14px;
+  }
+  textarea {
+    resize: vertical;
+  }
+  input:focus, textarea:focus, select:focus {
+    border-color: #0b1b3d;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(11, 27, 61, 0.15);
+  }
+  input[readonly] {
+    background-color: #e9ecef;
+    opacity: 1;
+  }
+
+  /* Checkbox Area Style */
+  .checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    background: #f1f3f5;
+    padding: 6px 10px;
+    border-radius: 4px;
+    border: 1px dashed #ced4da;
+    cursor: pointer;
+    font-size: 13px;
+    color: #495057;
+  }
+  .checkbox-container input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  /* Preview Mode Utility */
+  .preview-text {
+    font-size: 14px;
+    white-space: pre-wrap;
+    display: none;
+    line-height: 1.4;
+  }
+
+  /* Main Table Transaction Styles */
+  .main-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    table-layout: fixed;
+  }
+  .main-table, .main-table th, .main-table td {
+    border: 1px solid #dee2e6;
+  }
+  .main-table th {
+    background: #f1f3f5;
+    padding: 12px 8px;
+    font-size: 14px;
+    color: #0b1b3d;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .main-table td {
+    padding: 8px;
+    font-size: 14px;
+  }
+  .td-preview {
+    display: none;
+    word-break: break-word;
+  }
+  
+  /* Bottom Section */
+  .bottom-grid {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 35px;
+    gap: 40px;
+  }
+  .notes-container {
+    flex: 1.2;
+  }
+  .notes-container label {
+    font-weight: 600;
+    font-size: 14px;
+    color: #0b1b3d;
+    display: block;
+    margin-bottom: 5px;
+  }
+  .notes-preview {
+    display: none;
+    font-size: 13px;
+    color: #495057;
+    white-space: pre-wrap;
+    border: 1px dashed #ced4da;
+    padding: 12px;
+    border-radius: 5px;
+    background-color: #fafafa;
+    line-height: 1.6;
+  }
+  .total-and-sign {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex: 1;
+  }
+  
+  /* Kalkulasi & Seksi Total */
+  .total-container {
+    text-align: right;
+    font-size: 14px;
+    color: #212529;
+    width: 100%;
+    margin-bottom: 35px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .total-row {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .total-label {
+    font-weight: 600;
+    color: #495057;
+    width: 160px;
+  }
+  .total-value {
+    font-weight: bold;
+    width: 160px;
+    text-align: right;
+  }
+  
+  /* UKURAN FONT DISELARASKAN */
+  .grand-total-label {
+    color: #0066FF; 
+    font-size: 1.25em; /* Disamakan dengan nominal */
+    font-weight: 800;
+    width: 160px;
+  }
+  .grand-total-style {
+    color: #0066FF; 
+    font-size: 1.25em;
+    font-weight: 800; 
+    width: 160px;
+    text-align: right;
+  }
+  
+  /* Area Tanda Tangan & Stempel */
+  .signature-area {
+    display: none;
+    text-align: center;
+    width: 250px;
+    position: relative;
+  }
+  .signature-area p {
+    margin: 0;
+    font-size: 14px;
+  }
+  
+  .image-sign-container {
+    position: relative;
+    height: 125px; 
+    margin: 5px 0;
+  }
+
+  .ttd-wrapper {
+    position: absolute;
+    left: 18px;
+    top: 58px;
+    width: 110px;
+    height: auto;
+    pointer-events: none;
+  }
+  
+  .stempel-wrapper {
+    position: absolute;
+    top: 31px;       
+    left: 100px;      
+    width: 115px;    
+    height: auto;
+    opacity: 0.90;   
+    pointer-events: none; 
+    transform: rotate(-3deg);
+    mix-blend-mode: multiply; 
+  }
+
+  /* Button Styles */
+  .btn {
+    background: #0b1b3d;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: background 0.2s;
+  }
+  .btn:hover {
+    background: #172a53;
+  }
+  .btn-danger {
+    background: #dc3545;
+  }
+  .btn-danger:hover {
+    background: #bb2d3b;
+  }
+  .btn-success {
+    background: #198754;
+  }
+  .btn-success:hover {
+    background: #157347;
+  }
+  .btn-warning {
+    background: #ffc107;
+    color: #000;
+  }
+  .btn-warning:hover {
+    background: #ffca2c;
+  }
+  
+  .action-buttons {
+    margin-top: 30px;
+    display: flex;
+    gap: 12px;
+    border-top: 1px dashed #ced4da;
+    padding-top: 20px;
+  }
+
+  /* SAKLAR KONTROL PREVIEW MODE VIA CSS */
+  .preview-mode input, 
+  .preview-mode textarea, 
+  .preview-mode select,
+  .preview-mode .btn-add-row,
+  .preview-mode .delete-column,
+  .preview-mode .checkbox-container {
+    display: none !important;
+  }
+  .preview-mode .preview-text,
+  .preview-mode .td-preview,
+  .preview-mode .notes-preview,
+  .preview-mode .signature-area {
+    display: block !important;
+  }
+  .preview-mode th.delete-column {
+    display: none !important;
+  }
+
+  /* Media Cetak */
+  @media print {
+    body {
+      background: none;
+    }
+    .invoice-container {
+      box-shadow: none;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+    .btn, .action-buttons, .btn-add-row, .delete-column, th.delete-column, .checkbox-container {
+      display: none !important;
+    }
+    input, textarea, select {
+      display: none !important;
+    }
+    .preview-text, .td-preview, .notes-preview, .signature-area {
+      display: block !important;
+    }
+    .header-container {
+      border-bottom: 3px double #0b1b3d !important;
+    }
+    @page {
+      size: auto;
+      margin: 15mm 10mm;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div class="invoice-container" id="invoiceArea">
+    
+    <div class="header-container">
+      <div class="header-logo">
+        <img src="logo.png" alt="Logo">
+      </div>
+      <div class="header-details">
+        <h2>PT SEJAHTERA DUA PUTRA</h2>
+        <div class="sub-title">General Supplier & Trading</div>
+        <p>Jl. Mlarak Pulung, Suren RT02 RW02 Mlarak Ponorogo Jawa Timur</p>
+        <p><strong>Email:</strong> sales@sejahteraduaputra.id</p>
+      </div>
+      <div class="invoice-title-container">
+        <h1>PENAWARAN</h1>
+      </div>
+    </div>
+
+    <div class="billing-section">
+      
+      <div class="meta-invoice-row">
+        <table class="mini-info-table">
+          <tr>
+            <td class="label-col">No. Penawaran</td>
+            <td class="colon-col">:</td>
+            <td>
+              <input type="text" id="invoiceNumber" readonly>
+              <div class="preview-text" id="p-invoiceNumber" style="font-weight: bold; white-space: nowrap;"></div>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col">Tanggal Terbit</td>
+            <td class="colon-col">:</td>
+            <td>
+              <input type="date" id="invoiceDate">
+              <div class="preview-text" id="p-invoiceDate"></div>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col">Masa Berlaku</td>
+            <td class="colon-col">:</td>
+            <td>
+              <input type="text" id="validityPeriod" value="30 Hari sejak dokumen terbit">
+              <div class="preview-text" id="p-validityPeriod"></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      
+      <div class="customer-invoice-row">
+        <table class="mini-info-table" style="width: 550px;">
+          <tr>
+            <td class="label-col">Kepada</td>
+            <td class="colon-col">:</td>
+            <td>
+              <input type="text" id="customerName" placeholder="Nama Perusahaan / Pelanggan">
+              <div class="preview-text" id="p-customerName" style="font-weight: bold;"></div>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col">Up (Attn)</td>
+            <td class="colon-col">:</td>
+            <td>
+              <input type="text" id="attentionTo" placeholder="Nama Penerima / PIC">
+              <div class="preview-text" id="p-attentionTo"></div>
+            </td>
+          </tr>
+          <tr>
+            <td class="label-col">Alamat</td>
+            <td class="colon-col">:</td>
+            <td>
+              <textarea id="customerAddress" rows="2" placeholder="Alamat lengkap tujuan"></textarea>
+              <div class="preview-text" id="p-customerAddress"></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+    </div>
+
+    <table class="main-table" id="itemTable">
+      <thead>
+        <tr>
+          <th style="width: 22%;">Nama Barang / Jasa</th>
+          <th style="width: 28%;">Spesifikasi</th>
+          <th style="width: 7%;">Qty</th>
+          <th style="width: 6%;">Satuan</th>
+          <th style="width: 19%; text-align: right;">Harga Satuan (Rp)</th>
+          <th style="width: 18%; text-align: right;">Total (Rp)</th>
+          <th class="delete-column" style="width: 50px;">Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="items">
+        <tr>
+          <td>
+            <input type="text" class="itemName" placeholder="Nama item">
+            <div class="td-preview p-itemName"></div>
+          </td>
+          <td>
+            <input type="text" class="itemSpec" placeholder="Detail spesifikasi">
+            <div class="td-preview p-itemSpec"></div>
+          </td>
+          <td style="text-align: center;">
+            <input type="number" class="itemQty" value="1" min="0" style="text-align: center;">
+            <div class="td-preview p-itemQty"></div>
+          </td>
+          <td style="text-align: center;">
+            <select class="itemUnit">
+              <option value="Pcs">Pcs</option>
+              <option value="Unit">Unit</option>
+              <option value="Meter">Meter</option>
+              <option value="Lot">Lot</option>
+              <option value="Paket">Paket</option>
+              <option value="Jasa">Jasa</option>
+            </select>
+            <div class="td-preview p-itemUnit"></div>
+          </td>
+          <td>
+            <input type="number" class="itemPrice" value="0" min="0" style="text-align: right;">
+            <div class="td-preview p-itemPrice" style="text-align: right;"></div>
+          </td>
+          <td>
+            <input type="text" class="itemTotal" value="0" readonly style="text-align: right;">
+            <div class="td-preview p-itemTotal" style="text-align: right;"></div>
+          </td>
+          <td class="delete-column" style="text-align: center;">
+            <button class="btn btn-danger" style="margin:0; padding: 5px 10px;" onclick="deleteRow(this)">X</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button class="btn btn-add-row" style="margin-top: 15px;" onclick="addRow()">+ Tambah Baris Baru</button>
+
+    <div class="bottom-grid">
+      <div class="notes-container">
+        <label>Syarat & Ketentuan Penawaran:</label>
+        
+        <label class="checkbox-container">
+          <input type="checkbox" id="checkPPN" onchange="updateNotesFromCheckboxes()">
+          <span>1. Harga tidak termasuk PPN</span>
+        </label>
+        
+        <label class="checkbox-container">
+          <input type="checkbox" id="checkFranco" onchange="updateNotesFromCheckboxes()">
+          <span>2. Harga Franco Expedisi terdekat jika wilayah tidak terjangkau kurir</span>
+        </label>
+
+        <label class="checkbox-container">
+          <input type="checkbox" id="checkValidity" onchange="updateNotesFromCheckboxes()">
+          <span>3. Penawaran berlaku 30 hari sejak dokumen Terbit</span>
+        </label>
+
+        <label class="checkbox-container">
+          <input type="checkbox" id="checkPayment" onchange="updateNotesFromCheckboxes()">
+          <span>4. Pembayaran 14 hari setelah Invoice terbit</span>
+        </label>
+
+        <label class="checkbox-container">
+          <input type="checkbox" id="checkIncludePPN" onchange="updateNotesFromCheckboxes()">
+          <span style="font-weight: bold; color: #0b1b3d;">5. Harga termasuk PPN 11%</span>
+        </label>
+
+        <textarea id="invoiceNotes" rows="5" placeholder="Tulis syarat pembayaran atau ketentuan tambahan lainnya di sini..."></textarea>
+        <div class="notes-preview" id="p-invoiceNotes"></div>
+      </div>
+      
+      <div class="total-and-sign">
+        <div class="total-container">
+          <div class="total-row">
+            <span class="total-label" id="lblTotalPenawaran">Total Penawaran:</span>
+            <span class="total-value">Rp <span id="grandTotal">0</span></span>
+          </div>
+          
+          <div class="total-row" id="rowPPN" style="display: none;">
+            <span class="total-label">PPN (11%):</span>
+            <span class="total-value">Rp <span id="taxValue">0</span></span>
+          </div>
+          
+          <div class="total-row" id="rowGrandTotal" style="display: none; border-top: 1px solid #ced4da; padding-top: 4px;">
+            <span class="grand-total-label">Grand Total:</span>
+            <span class="grand-total-style">Rp <span id="trueGrandTotal">0</span></span>
+          </div>
+        </div>
+        
+        <div class="signature-area">
+          <p><strong>Hormat Kami,</strong></p>
+          
+          <div class="image-sign-container">
+            <img src="ttd.png" alt="Tanda Tangan" class="ttd-wrapper">
+            <img src="stampel.png" alt="Stempel Perusahaan" class="stempel-wrapper">
+          </div>
+          
+          <p style="border-top: 1px solid #333; font-weight: bold; padding-top: 5px; text-transform: uppercase;">PT SEJAHTERA DUA PUTRA</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-buttons">
+      <button class="btn" id="btnPreview" onclick="togglePreviewMode()">👁️ Tampilkan Preview</button>
+      <button class="btn btn-success" id="btnPrint" onclick="printInvoice()" style="display: none;">💾 Cetak & Simpan PDF</button>
+    </div>
+  </div>
+
+  <script>
+    let isPreviewMode = false;
+
+    function updateNotesFromCheckboxes() {
+      const notesField = document.getElementById("invoiceNotes");
+      
+      const cPPN = document.getElementById("checkPPN").checked;
+      const cFranco = document.getElementById("checkFranco").checked;
+      const cValidity = document.getElementById("checkValidity").checked;
+      const cPayment = document.getElementById("checkPayment").checked;
+      const cIncludePPN = document.getElementById("checkIncludePPN").checked;
+      
+      let lines = [];
+      
+      if (cPPN) lines.push("- Harga tidak termasuk PPN");
+      if (cFranco) lines.push("- Harga Franco Expedisi terdekat jika wilayah tidak terjangkau kurir");
+      if (cValidity) lines.push("- Penawaran berlaku 30 hari sejak dokumen Terbit");
+      if (cPayment) lines.push("- Pembayaran 14 hari setelah Invoice terbit");
+      if (cIncludePPN) lines.push("- Harga sudah termasuk PPN 11%");
+      
+      notesField.value = lines.join("\n");
+      
+      calculateTotals();
+    }
+
+    function getNextQuotationNumber() {
+      const year = new Date().getFullYear();
+      let currentNumber = localStorage.getItem("lastQuotationNumberSDP");
+      
+      if (!currentNumber) currentNumber = 1;
+      else currentNumber = parseInt(currentNumber) + 1;
+
+      localStorage.setItem("lastQuotationNumberSDP", currentNumber);
+      return `OPH-SDP-${year}-V-${String(currentNumber).padStart(4, '0')}`;
+    }
+
+    document.getElementById("invoiceDate").valueAsDate = new Date();
+    document.getElementById("invoiceNumber").value = getNextQuotationNumber();
+
+    function addRow() {
+      const tbody = document.getElementById("items");
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td><input type="text" class="itemName" placeholder="Nama item"><div class="td-preview p-itemName"></div></td>
+        <td><input type="text" class="itemSpec" placeholder="Detail spesifikasi"><div class="td-preview p-itemSpec"></div></td>
+        <td style="text-align: center;"><input type="number" class="itemQty" value="1" min="0" style="text-align: center;"><div class="td-preview p-itemQty"></div></td>
+        <td style="text-align: center;">
+          <select class="itemUnit">
+            <option value="Pcs">Pcs</option>
+            <option value="Unit">Unit</option>
+            <option value="Meter">Meter</option>
+            <option value="Lot">Lot</option>
+            <option value="Paket">Paket</option>
+            <option value="Jasa">Jasa</option>
+          </select>
+          <div class="td-preview p-itemUnit"></div>
+        </td>
+        <td><input type="number" class="itemPrice" value="0" min="0" style="text-align: right;"><div class="td-preview p-itemPrice" style="text-align: right;"></div></td>
+        <td><input type="text" class="itemTotal" value="0" readonly style="text-align: right;"><div class="td-preview p-itemTotal" style="text-align: right;"></div></td>
+        <td class="delete-column" style="text-align: center;"><button class="btn btn-danger" style="margin:0; padding: 5px 10px;" onclick="deleteRow(this)">X</button></td>
+      `;
+      tbody.appendChild(row);
+      
+      row.addEventListener("input", function(e) {
+        if (e.target.classList.contains("itemQty") || e.target.classList.contains("itemPrice")) {
+          calculateTotals();
+        }
+      });
+    }
+
+    function deleteRow(button) {
+      const rows = document.querySelectorAll("#items tr");
+      if (rows.length > 1) {
+        button.closest("tr").remove();
+        calculateTotals();
+      } else {
+        alert("Gagal menghapus! Minimal harus menyisakan 1 baris rincian barang.");
+      }
+    }
+
+    document.getElementById("items").addEventListener("input", function(e) {
+      if (e.target.classList.contains("itemQty") || e.target.classList.contains("itemPrice")) {
+        calculateTotals();
+      }
+    });
+
+    function calculateTotals() {
+      const rows = document.querySelectorAll("#items tr");
+      let subTotal = 0;
+
+      rows.forEach(row => {
+        const qty = parseFloat(row.querySelector(".itemQty").value) || 0;
+        const price = parseFloat(row.querySelector(".itemPrice").value) || 0;
+        const total = qty * price;
+        
+        row.querySelector(".itemTotal").value = total.toLocaleString('id-ID');
+        subTotal += total;
+      });
+
+      document.getElementById("grandTotal").innerText = subTotal.toLocaleString('id-ID');
+
+      const isPPNChecked = document.getElementById("checkIncludePPN").checked;
+      const rowPPN = document.getElementById("rowPPN");
+      const rowGrandTotal = document.getElementById("rowGrandTotal");
+      const lblTotalPenawaran = document.getElementById("lblTotalPenawaran");
+
+      if (isPPNChecked) {
+        let tax = subTotal * 0.11;
+        let finalGrandTotal = subTotal + tax;
+
+        document.getElementById("taxValue").innerText = tax.toLocaleString('id-ID');
+        document.getElementById("trueGrandTotal").innerText = finalGrandTotal.toLocaleString('id-ID');
+        
+        lblTotalPenawaran.innerText = "Subtotal Penawaran:";
+        rowPPN.style.display = "flex";
+        rowGrandTotal.style.display = "flex";
+      } else {
+        lblTotalPenawaran.innerText = "Total Penawaran:";
+        rowPPN.style.display = "none";
+        rowGrandTotal.style.display = "none";
+      }
+    }
+
+    calculateTotals();
+
+    function formatTanggalIndonesia(dateStr) {
+      if(!dateStr) return "";
+      const listBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+      let d = new Date(dateStr);
+      return `${d.getDate()} ${listBulan[d.getMonth()]} ${d.getFullYear()}`;
+    }
+
+    function togglePreviewMode() {
+      const container = document.getElementById("invoiceArea");
+      const btnPreview = document.getElementById("btnPreview");
+      const btnPrint = document.getElementById("btnPrint");
+
+      if (!isPreviewMode) {
+        document.getElementById("p-invoiceNumber").innerText = document.getElementById("invoiceNumber").value;
+        
+        const dateVal = document.getElementById("invoiceDate").value;
+        document.getElementById("p-invoiceDate").innerText = formatTanggalIndonesia(dateVal);
+        
+        document.getElementById("p-validityPeriod").innerText = document.getElementById("validityPeriod").value;
+        document.getElementById("p-customerName").innerText = document.getElementById("customerName").value;
+        document.getElementById("p-attentionTo").innerText = document.getElementById("attentionTo").value;
+        document.getElementById("p-customerAddress").innerText = document.getElementById("customerAddress").value;
+        document.getElementById("p-invoiceNotes").innerText = document.getElementById("invoiceNotes").value;
+
+        const rows = document.querySelectorAll("#items tr");
+        rows.forEach(row => {
+          row.querySelector(".p-itemName").innerText = row.querySelector(".itemName").value;
+          row.querySelector(".p-itemSpec").innerText = row.querySelector(".itemSpec").value;
+          row.querySelector(".p-itemQty").innerText = row.querySelector(".itemQty").value;
+          row.querySelector(".p-itemUnit").innerText = row.querySelector(".itemUnit").value;
+          
+          const priceVal = parseFloat(row.querySelector(".itemPrice").value) || 0;
+          row.querySelector(".p-itemPrice").innerText = priceVal.toLocaleString('id-ID');
+          row.querySelector(".p-itemTotal").innerText = row.querySelector(".itemTotal").value;
+        });
+
+        container.classList.add("preview-mode");
+        btnPreview.innerHTML = "✏️ Edit Kembali";
+        btnPreview.className = "btn btn-warning";
+        btnPrint.style.display = "inline-block";
+        isPreviewMode = true;
+      } else {
+        container.classList.remove("preview-mode");
+        btnPreview.innerHTML = "👁️ Tampilkan Preview";
+        btnPreview.className = "btn";
+        btnPrint.style.display = "none";
+        isPreviewMode = false;
+      }
+    }
+
+    function printInvoice() {
+      const originalTitle = document.title;
+      const invoiceNo = document.getElementById("invoiceNumber").value;
+      
+      document.title = invoiceNo;
+      window.print();
+      document.title = originalTitle;
+    }
+  </script>
+</body>
+</html>
